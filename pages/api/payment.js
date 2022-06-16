@@ -6,7 +6,7 @@ import authMiddle from "../middleware/auth";
 
 const handler = async (req, res) => {
   if (req.method === "POST") {
-    const { cardNumber, expDate, cvv, amount, email, name } = req.body;
+    const { cardNumber, expDate, cvv, amount } = req.body;
 
     const hash = await bcrypt.hash(cvv, 10);
 
@@ -17,7 +17,6 @@ const handler = async (req, res) => {
       amount,
     })
       .then((payment) => {
-        console.log(payment);
         return res.status(201).send({
           amount: payment.amount,
           _id: payment._id,
@@ -30,6 +29,7 @@ const handler = async (req, res) => {
     res.statusCode = 400;
     res.setHeader("Content-Type", "application/json");
     res.end(JSON.stringify({ message: "Bad Request" }));
+    return;
   }
 };
 

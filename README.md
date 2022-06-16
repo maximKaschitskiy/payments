@@ -1,34 +1,83 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### Задание
 
-## Getting Started
 
-First, run the development server:
+Создать приложение приема платежей (Nextjs + Mantine или MUI, обязательное использовние кастомного CSS)
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+1) Добавить логин с помощью Google OAuth
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2) Приложение должно выводить форму с полями:
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+-   Card Number
+-   Expiration Date
+-   CVV
+-   Amount
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+3) Валидация:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+-   Card Number - (только цифры, длина значения 16)
+-   Expiration Date (формат даты MM/YYYY)
+-   CVV (только цифры, длина значения 3)
+-   Amount (только цифры)
 
-## Learn More
+4) Кнопка "оплатить":
 
-To learn more about Next.js, take a look at the following resources:
+-   должна быть активно если все поля введены корректно
+-   при нажатии идет запрос на сервер с данными формы в формате JSON
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5) CSS:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+-   сделать фон градиентом с левого нижнего угла к правому верхнему
+-   при наведение на кнопку курсором она должна плавно менять цвет слева на право
+-   добавить тени для текстовых полей
 
-## Deploy on Vercel
+6) Api :
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+-   должен сохранять данные в Redis или mongoDB
+-   при успешном сохранении должнен возвращать ответ ID записи и Amount в формате JSON
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+пример запроса { "CardNumber": '0000000000000000', ExpDate: '04/2022', Cvv: '123', Amount: 100 }
+
+пример ответа { "RequestId": '61b248040041bc64b411a691', Amount: 100 }
+
+  
+
+### Solution
+
+#### Backend:
+
+There is server on Next.js provides access to the API for passing and storing the payment entry. Entries are stored in MongoDB.
+
+A secure route requires validation with Google 0Auth.
+
+##### Route:
+
+POST “/api/payment” route is secured. It accepts payment form data in JSON object format. It sends an id from the database and the “amount” value in response. Accepted values ​​are validated for characters validity and count. The transferred data is stored in the database, cvv saved as a hash.
+Request example:
+
+      {
+        "cardNumber": "0000000000000000",
+        "expDate": "04/2022",
+        "cvv": "123",
+        "amount": "100"
+      }
+
+Answer example:
+
+    {
+      "amount": "100",
+      "_id": "62ab5ebbeac809feb4f71fd5"
+    }
+
+##### Frontend:
+
+A page using MUI components with custom styles.
+Field values ​​are validated for the numbers and validity of characters, and the correctness of the date. After submitting the form data to the API route, the page renders returned from the API values ​.
+  
+How to launch
+
+    mongod
+    npm run start
+  
+##### Technology:
+- API: next, next-auth, mongodb, mongoose, joi, bcrypt
+- Frontend: next, react, yup

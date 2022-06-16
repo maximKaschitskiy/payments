@@ -1,12 +1,10 @@
 import Joi from "joi";
 
 const apiValidateSchema = Joi.object({
-    cardNumber: Joi.number().required().min(16),
-    expDate: Joi.string().required().min(5),
-    cvv: Joi.number().required().min(3),
-    amount: Joi.number().required(),
-    email: Joi.string().required().email(),
-    name: Joi.string().required(),
+    cardNumber: Joi.string().length(16).pattern(/^[0-9]+$/).required(),
+    expDate: Joi.string().length(7).pattern(/^(0\d|1[0-2])\/\d{4}$/).required(),
+    cvv: Joi.string().length(3).pattern(/^[0-9]+$/).required(),
+    amount: Joi.string().min(1).max(9).pattern(/^[0-9]+$/).required(),
 });
 
 export default apiValidateSchema;
