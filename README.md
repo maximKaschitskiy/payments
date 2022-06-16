@@ -39,9 +39,9 @@
 
 пример ответа { "RequestId": '61b248040041bc64b411a691', Amount: 100 }
 
-  ![template](https://user-images.githubusercontent.com/67905360/174142901-7289cc91-2060-4399-98cc-481ebe30d19d.png)
-
 ### Solution
+
+  ![template](https://user-images.githubusercontent.com/67905360/174142901-7289cc91-2060-4399-98cc-481ebe30d19d.png)
 
 #### Backend:
 
