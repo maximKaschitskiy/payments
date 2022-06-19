@@ -52,7 +52,7 @@ A secure route requires validation with Google 0Auth.
 
 ##### Route:
 
-POST “/api/payment” route is secured. It accepts payment form data in JSON object format. It sends an id from the database and the “amount” value in response. Accepted values ​​are validated for characters validity and count. The transferred data is stored in the database, cvv saved as a hash.
+POST “/api/payment” route is secured. It accepts payment form data in JSON object format. It sends an id from the database and the “amount” value in response. Accepted values are validated for characters validity and count. The transferred data is stored in the database, cvv saved as a hash.
 Request example:
 
       {
