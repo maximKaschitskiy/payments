@@ -1,5 +1,6 @@
-### Задание
+## task for Datasub
 
+### Задание
 
 Создать приложение приема платежей (Nextjs + Mantine или MUI, обязательное использовние кастомного CSS)
 
@@ -39,9 +40,9 @@
 
 пример ответа { "RequestId": '61b248040041bc64b411a691', Amount: 100 }
 
-  
-
 ### Solution
+
+  ![template](https://user-images.githubusercontent.com/67905360/174142901-7289cc91-2060-4399-98cc-481ebe30d19d.png)
 
 #### Backend:
 
@@ -51,7 +52,7 @@ A secure route requires validation with Google 0Auth.
 
 ##### Route:
 
-POST “/api/payment” route is secured. It accepts payment form data in JSON object format. It sends an id from the database and the “amount” value in response. Accepted values ​​are validated for characters validity and count. The transferred data is stored in the database, cvv saved as a hash.
+POST “/api/payment” route is secured. It takes payment form data in JSON object format. It sends an id from the database and the “amount” value in response. Taked values are validated for characters validity and count. The transferred data is stored in the database, cvv saved as a hash.
 Request example:
 
       {
@@ -71,7 +72,7 @@ Answer example:
 ##### Frontend:
 
 A page using MUI components with custom styles.
-Field values ​​are validated for the numbers and validity of characters, and the correctness of the date. After submitting the form data to the API route, the page renders returned from the API values ​.
+Field values are validated for the numbers and validity of characters, and the correctness of the date. After submitting the form data to the API route, the page renders returned from the API values.
   
 How to launch
 
