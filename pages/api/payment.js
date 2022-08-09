@@ -1,8 +1,9 @@
 import connectDB from "../middleware/mongodb";
 import bcrypt from "bcrypt";
-import Payment from "../models/payments";
+import Payment from "./models/payments";
 import validateInputs from "../middleware/validate";
 import authMiddle from "../middleware/auth";
+import mongoose from 'mongoose';
 
 const handler = async (req, res) => {
   if (req.method === "POST") {

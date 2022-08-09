@@ -1,26 +1,21 @@
 import * as React from "react";
+import Head from 'next/head'
 import { useSession, signIn, signOut, getSession } from "next-auth/react";
 
-import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
 import Paper from "@mui/material/Paper";
 import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { MainWrapper, MainFormWrapper, StyledStep, StyledStepLabel } from "./MakePaymentStyles.js";
+
 import AccountForm from "../AcoountForm/AcoountForm";
 import PaymentForm from "../PaymentForm/PaymentForm";
 import Review from "../Review/Review";
-import stepperStyle from "../../styles/stepper";
-import bgStyle from "../../styles/background";
-import paperStyle from "../../styles/paper";
 
 export default function Checkout() {
   const steps = ["Payment account", "Payment details", "Review your order"];
@@ -122,29 +117,23 @@ export default function Checkout() {
     ) {
       setIsAccountEdit(true);
     }
-  }, [loginFormData]);
+  }, [loginFormData, session]);
 
   return (
     <>
-      <Container
+      <Head>
+        <title>Make Payment</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <MainWrapper
         component="main"
         maxWidth="sm"
-        sx={
-          ({
-            mb: 4,
-            overflow: "hidden",
-          },
-          bgStyle)
-        }
       >
-        <Paper
+        <MainFormWrapper
           variant="outlined"
           sx={{
             my: { xs: 3, md: 6 },
             p: { xs: 2, md: 3 },
-            backgroundColor: "rgba(255,255,255,0.3)",
-            backdropFilter:
-              "blur(10px) saturate(100%) contrast(45%) brightness(130%)",
           }}
         >
           <Typography component="h1" variant="h4" align="center">
@@ -152,16 +141,16 @@ export default function Checkout() {
           </Typography>
           <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
             {steps.map((label) => (
-              <Step key={label} sx={stepperStyle.step}>
-                <StepLabel sx={stepperStyle.stepLabel}>{label}</StepLabel>
-              </Step>
+              <StyledStep key={label}>
+                <StyledStepLabel>{label}</StyledStepLabel>
+              </StyledStep>
             ))}
           </Stepper>
           <React.Fragment>
             <React.Fragment>{getStepContent(activeStep)}</React.Fragment>
           </React.Fragment>
-        </Paper>
-      </Container>
+        </MainFormWrapper>
+      </MainWrapper>
     </>
   );
 }

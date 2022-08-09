@@ -3,5 +3,11 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
-  "/api/payment": "pages/api/payment.js"
+  "/api/models/payments": "pages/api/models/payments.js",
+  "/api/payment": "pages/api/payment.js",
+  "/": "pages/index.html",
+  "/middleware/auth": "pages/middleware/auth.html",
+  "/middleware/mongodb": "pages/middleware/mongodb.html",
+  "/middleware/validate": "pages/middleware/validate.html",
+  "/404": "pages/404.html"
 }

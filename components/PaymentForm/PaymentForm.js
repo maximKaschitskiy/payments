@@ -3,8 +3,6 @@ import * as Yup from "yup";
 
 import { paymentSchema } from "../../utility/formValidateSchema";
 
-import imputStyle from "../../styles/input";
-
 import FormComponent from "../Form/Form";
 import StepButtons from "../SterButtons/StepButtons";
 
@@ -152,7 +150,6 @@ const PaymentForm = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              error={false}
               required
               id="expDate"
               label="Expiry date"
@@ -189,11 +186,9 @@ const PaymentForm = ({
           </Grid>
           <Grid item xs={12} md={6}>
             <TextField
-              error={false}
               required
               id="cvv"
               label="CVV"
-              helperText="Last three digits on signature strip"
               fullWidth
               autoComplete="cc-csc"
               variant="standard"

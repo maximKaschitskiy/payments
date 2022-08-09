@@ -1,10 +1,8 @@
-import buttonStyle from "../../styles/button";
-
 import { jsx, css } from "@emotion/react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
+
 import { green } from "@mui/material/colors";
+import { StyledButtonStep, StyledCircularProgress } from "./StepButtonSyles.js";
 
 const StepButtons = ({ onSubmit, handleBack, activeStep, steps, loading }) => {
   return (
@@ -13,38 +11,28 @@ const StepButtons = ({ onSubmit, handleBack, activeStep, steps, loading }) => {
     >
       {activeStep !== 0 && (
         <Box sx={{ mt: 3, mr: 0.5, position: "relative" }}>
-          <Button
+          <StyledButtonStep
             className="customButton"
             variant="contained"
             onClick={handleBack}
-            sx={({ mt: 3, ml: 1 }, buttonStyle)}
+            sx={({ mt: 3, ml: 1 })}
           >
             Back
-          </Button>
+          </StyledButtonStep>
         </Box>
       )}
       <Box sx={{ mt: 3, ml: 0.5, position: "relative" }}>
-        <Button
+        <StyledButtonStep
           className="customButton"
           variant="contained"
           disabled={loading}
           onClick={() => {
             onSubmit();
           }}
-          sx={({ mt: 3, ml: 1 }, buttonStyle)}
+          sx={({ mt: 3, ml: 1 })}
         >
-          {activeStep === steps.length - 1 ? "Place order" : "Next"}
-        </Button>
-        {loading && (
-          <CircularProgress
-            size={24}
-            sx={{
-              position: "absolute",
-              top: "20%",
-              left: "35%",
-            }}
-          />
-        )}
+          {activeStep === steps.length - 1 ? "Place order" : (loading ? <StyledCircularProgress size={24}/> : "Next")} 
+        </StyledButtonStep>
       </Box>
     </Box>
   );
