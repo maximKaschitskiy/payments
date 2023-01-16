@@ -17,19 +17,21 @@ function FormComponent({
   refLink,
 }) {
   return (
-    <FormControl
+    <form
+      onSubmit={
+        (event)=>event.preventDefault()
+      }
       name={name}
       method="post"
       className={`form ${formClassName}`}
       noValidate
-      onSubmit={onSubmit}
       ref={refLink}
       xs={12}
       md={12}
       sx={{ display: "flex", justifyContent: "center" }}
     >
       {children}
-    </FormControl>
+    </form>
   );
 }
 

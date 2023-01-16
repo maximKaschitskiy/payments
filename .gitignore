@@ -40,3 +40,7 @@ node_modules
 
 # ENV
 .env
+
+/.next
+/.next/
+.next

@@ -16,6 +16,7 @@ import { MainWrapper, MainFormWrapper, StyledStep, StyledStepLabel } from "./Mak
 import AccountForm from "../AcoountForm/AcoountForm";
 import PaymentForm from "../PaymentForm/PaymentForm";
 import Review from "../Review/Review";
+import CustomSnackbar from "../SnackBar/SnackBar.js";
 
 export default function Checkout() {
   const steps = ["Payment account", "Payment details", "Review your order"];
@@ -24,10 +25,11 @@ export default function Checkout() {
   const [fromApi, setFromApi] = React.useState({});
   const { data: session } = useSession();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [isAccountEdit, setIsAccountEdit] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [snackBarOpen, setSnackBarOpen] = React.useState(false);
+  const [snackBarStatus, setSnackBarStatus] = React.useState();
 
-  function getStepContent(step) {
+  const getStepContent = (step) => {
     switch (step) {
       case 0:
         return (
@@ -43,7 +45,6 @@ export default function Checkout() {
             getValues={(values) => {
               setLoginFormData(values);
             }}
-            isAccountEdit={isAccountEdit}
             formData={loginFormData}
           />
         );
@@ -61,6 +62,7 @@ export default function Checkout() {
             getValues={(values) => {
               setPaymentFormData(values);
             }}
+            formData={paymentFormData}
             isLoading={isLoading}
           />
         );
@@ -71,9 +73,15 @@ export default function Checkout() {
     }
   }
 
+  const handleSnackBarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+        return;
+    }
+    setSnackBarOpen(false);
+  };
+
   const fetchData = (values) => {
     setIsLoading(true);
-    values.cardNumber = values.cardNumber.replace(/ /g, "");
     return fetch("api/payment", {
       method: "POST",
       headers: {
@@ -85,6 +93,9 @@ export default function Checkout() {
     })
       .then((res) => {
         if (res.ok) {
+          const {ok, status, statusText} = res;
+          setSnackBarStatus({ok, status, statusText});
+          setSnackBarOpen(true);
           return res.json();
         }
         return Promise.reject(res);
@@ -94,7 +105,10 @@ export default function Checkout() {
         handleNext();
       })
       .catch((err) => {
-        console.log(err);
+        console.log({err})
+        const {ok, status, statusText} = err;
+        setSnackBarStatus({ok, status, statusText});
+        setSnackBarOpen(true);
       })
       .finally(() => {
         setIsLoading(false);
@@ -108,16 +122,6 @@ export default function Checkout() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
-
-  React.useEffect(() => {
-    if (
-      session &&
-      (loginFormData.email !== session.user.email ||
-        loginFormData.name !== session.user.name)
-    ) {
-      setIsAccountEdit(true);
-    }
-  }, [loginFormData, session]);
 
   return (
     <>
@@ -149,6 +153,11 @@ export default function Checkout() {
           <React.Fragment>
             <React.Fragment>{getStepContent(activeStep)}</React.Fragment>
           </React.Fragment>
+          <CustomSnackbar 
+            handleClose={(event, reason) => handleSnackBarClose(event, reason)}
+            isOpen={snackBarOpen}
+            status={snackBarStatus}
+          />
         </MainFormWrapper>
       </MainWrapper>
     </>

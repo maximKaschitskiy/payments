@@ -6,13 +6,14 @@ async function validateLength(input, digits) {
   }
 }
 
-async function validateExpiry(input) {
+async function validateMonth(input) {
   if (input) {
-    if (input.match(/^(0\d|1[0-2])\/\d{4}$/)) {
-      const { 0: month, 1: year } = input.split("/");
-      const expiry = new Date(year, month);
-      const current = new Date();
-      return expiry.getTime() > current.getTime();
+    const {
+      0: month,
+      1: year
+    } = input.split("/");
+    if (!(month > 12)) {
+      return true;
     } else {
       return false;
     }
@@ -21,4 +22,31 @@ async function validateExpiry(input) {
   }
 }
 
-export { validateLength, validateExpiry };
+async function validateFormat(input) {
+  if (input) {
+    return new RegExp(/^(0\d|1[0-2])\/\d{4}$/).test(input);
+  } else {
+    return false;
+  }
+}
+
+async function validateExpiry(input) {
+  if (input) {
+    const {
+      0: month,
+      1: year
+    } = input.split("/");
+    const expiry = new Date(year, month);
+    const current = new Date();
+    return expiry.getTime() > current.getTime();
+  } else {
+    return false;
+  }
+}
+
+export {
+  validateLength,
+  validateMonth,
+  validateExpiry,
+  validateFormat
+};

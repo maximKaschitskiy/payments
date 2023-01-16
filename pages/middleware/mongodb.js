@@ -11,11 +11,16 @@ const connectDB = (handler) => async (req, res) => {
       .then((mongoose) => {
         return mongoose;
       })
-      .then(() => console.log("conntect to DB successful"))
       .then(() => {
         return handler(req, res);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log({err});
+        res.statusCode = 500;
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify({ message: "Internal Server Error" }));
+        return err;
+      });
   }
 };
 

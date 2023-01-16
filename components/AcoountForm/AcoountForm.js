@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { accountSchema } from "../../utility/formValidateSchema";
 
 import FormComponent from "../Form/Form";
-import StepButtons from "../SterButtons/StepButtons";
+import StepButtons from "../StepButtons/StepButtons";
 
 import { useSession, signIn, signOut } from "next-auth/react";
 
@@ -29,7 +29,6 @@ const AccountForm = ({
   steps,
   activeStep,
   getValues,
-  isAccountEdit,
   formData,
 }) => {
   const { data: session } = useSession();
@@ -44,7 +43,7 @@ const AccountForm = ({
 
   /* eslint-disable */
   React.useEffect(() => {
-    if (session && !isAccountEdit) {
+    if (session) {
       setInputField({
         name: session.user.name,
         email: session.user.email,
@@ -95,13 +94,6 @@ const AccountForm = ({
       >
         <Typography
           variant="subtitle1"
-          sx={
-            showErros && !session
-              ? {
-                  borderBottom: "2px solid #d32f2f",
-                }
-              : { borderBottom: "none" }
-          }
         >
           {session
             ? "Sign out if you want to change your account"
@@ -115,16 +107,11 @@ const AccountForm = ({
           {session ? "Sign out" : "Sign In"}
         </StyledButtonAcoount>
       </AccountFormWrapper>
-      <FormComponent
-        buttonText="Отправить"
-        formClassName="form_state_post-card"
-        bottomLink={"/"}
-        refLink={thisform}
-        onSubmit={onSubmit}
-      >
+      <FormComponent>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
+              disabled={true}
               required
               id="name"
               name="name"
@@ -154,6 +141,7 @@ const AccountForm = ({
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
+              disabled={true}
               required
               id="email"
               name="email"
@@ -168,7 +156,7 @@ const AccountForm = ({
               inputProps={{
                 type: "email",
                 minLength: 5,
-                maxLength: 20,
+                maxLength: 35,
               }}
               error={
                 fieldsValidiy.email

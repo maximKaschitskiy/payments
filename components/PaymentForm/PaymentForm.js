@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { paymentSchema } from "../../utility/formValidateSchema";
 
 import FormComponent from "../Form/Form";
-import StepButtons from "../SterButtons/StepButtons";
+import StepButtons from "../StepButtons/StepButtons";
 
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
@@ -25,6 +25,7 @@ const PaymentForm = ({
   activeStep,
   getValues,
   isLoading,
+  formData
 }) => {
   const thisform = React.useRef();
 
@@ -35,12 +36,18 @@ const PaymentForm = ({
   const [isFormValid, setIsFormValid] = React.useState(false);
   const [isFormEdit, setIsFormEdit] = React.useState(false);
 
+  React.useEffect(() => {
+    if (JSON.stringify(formData) !== '{}') {
+      setInputField(formData);
+    }
+  }, []);
+
   const handleChange = (event) => {
     setInputField({ ...inputField, [event.target.name]: event.target.value });
+    getValues(inputField);
   };
 
   const handleSubmit = () => {
-    const allErrs = {};
     paymentSchema
       .validate(inputField, { abortEarly: false })
       .then(() => {
@@ -49,15 +56,23 @@ const PaymentForm = ({
         handleNext(inputField);
       })
       .catch((err) => {
-        console.log(err);
-        err.inner.map((event) => {
-          allErrs[event.path] = {
-            validity: false,
-            message: event.message,
-          };
-        });
-        setFieldsValidity(allErrs);
-        setShowErrors(true);
+        if (err.inner) {
+          const allErrs = {};
+          err.inner.forEach(elem => {
+            if (allErrs.hasOwnProperty(`${elem.path}`)) {
+              allErrs[elem.path].message.push(elem.message);
+            } else {
+              allErrs[elem.path] = {
+                validity: false,
+                message: [elem.message],
+              };
+            }
+          });
+          setFieldsValidity(allErrs);
+          setShowErrors(true);
+        } else {
+          console.log({err});
+        }
       });
   };
 
@@ -104,7 +119,7 @@ const PaymentForm = ({
               }
               helperText={
                 showErros && fieldsValidiy.amount
-                  ? fieldsValidiy.amount.message
+                  ? fieldsValidiy.amount.message[0]
                   : ""
               }
             />
@@ -143,7 +158,7 @@ const PaymentForm = ({
               }
               helperText={
                 showErros && fieldsValidiy.cardNumber
-                  ? fieldsValidiy.cardNumber.message
+                  ? fieldsValidiy.cardNumber.message[0]
                   : ""
               }
             />
@@ -179,7 +194,7 @@ const PaymentForm = ({
               }
               helperText={
                 showErros && fieldsValidiy.expDate
-                  ? fieldsValidiy.expDate.message
+                  ? fieldsValidiy.expDate.message[0]
                   : ""
               }
             />
@@ -211,7 +226,9 @@ const PaymentForm = ({
                   : false
               }
               helperText={
-                showErros && fieldsValidiy.cvv ? fieldsValidiy.cvv.message : ""
+                showErros && fieldsValidiy.cvv
+                  ? fieldsValidiy.cvv.message[0]
+                  : ""
               }
             />
           </Grid>
@@ -220,9 +237,7 @@ const PaymentForm = ({
           activeStep={activeStep}
           steps={steps}
           handleBack={handleBack}
-          onSubmit={() => {
-            handleSubmit();
-          }}
+          onSubmit={() => handleSubmit()}
           loading={isLoading}
         />
       </FormComponent>

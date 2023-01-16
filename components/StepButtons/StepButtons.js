@@ -29,6 +29,7 @@ const StepButtons = ({ onSubmit, handleBack, activeStep, steps, loading }) => {
           onClick={() => {
             onSubmit();
           }}
+          type="submit"
           sx={({ mt: 3, ml: 1 })}
         >
           {activeStep === steps.length - 1 ? "Place order" : (loading ? <StyledCircularProgress size={24}/> : "Next")} 
