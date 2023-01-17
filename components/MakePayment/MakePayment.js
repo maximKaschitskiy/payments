@@ -93,6 +93,7 @@ export default function Checkout() {
     })
       .then((res) => {
         if (res.ok) {
+          console.log({res});
           const {ok, status, statusText} = res;
           setSnackBarStatus({ok, status, statusText});
           setSnackBarOpen(true);
@@ -109,6 +110,7 @@ export default function Checkout() {
         const {ok, status, statusText} = err;
         setSnackBarStatus({ok, status, statusText});
         setSnackBarOpen(true);
+        return Promise.reject(err);
       })
       .finally(() => {
         setIsLoading(false);
