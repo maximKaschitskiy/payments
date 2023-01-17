@@ -16,7 +16,8 @@ const handler = async (req, res) => {
         amount,
       })
       .then((payment) => {
-        res.status(201).statusText("Created").send({
+        res.statusMessage = "Created";
+        res.status(201).send({
           amount: payment.amount,
           _id: payment._id,
         });
