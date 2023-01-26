@@ -14,7 +14,7 @@ Fullstack payment form with Google 0Auth. Successful payments adds in MongoDB. F
 
 There is server on Next.js provides access to the API for passing and storing the payment entry. Entries are stored in MongoDB.
 
-A secure route requires validation with Google 0Auth.
+A secure route requires validation with Google auth.
 
 ##### Routes:
 
