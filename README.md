@@ -6,6 +6,8 @@ http://datasub-test.vercel.app/
 
 ### Description: 
 
+Fullstack payment form with Google 0Auth. Successful payments adds in MongoDB. Forms and requests are validated.
+
   ![template](https://user-images.githubusercontent.com/67905360/174142901-7289cc91-2060-4399-98cc-481ebe30d19d.png)
 
 #### Backend:
@@ -14,7 +16,7 @@ There is server on Next.js provides access to the API for passing and storing th
 
 A secure route requires validation with Google 0Auth.
 
-##### Route:
+##### Routes:
 
 POST “/api/payment” route is secured. It takes payment form data in JSON object format. It sends an id from the database and the “amount” value in response. Taked values are validated for characters validity and count. The transferred data is stored in the database, cvv saved as a hash.
 Request example:
