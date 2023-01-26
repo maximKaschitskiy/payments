@@ -1,4 +1,4 @@
-## Payment (fullstack)
+## Payments (fullstack)
 
 ### Release:
 
