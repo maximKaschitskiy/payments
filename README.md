@@ -47,4 +47,4 @@ Field values are validated for the numbers and validity of characters, and the c
   
 ##### Technology:
 - API: next, next-auth, mongodb, mongoose, joi, bcrypt
-- Frontend: next, react, yup
+- Frontend: next, yup
