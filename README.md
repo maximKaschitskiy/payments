@@ -35,12 +35,12 @@ Answer example:
       "_id": "62ab5ebbeac809feb4f71fd5"
     }
 
-##### Frontend:
+#### Frontend:
 
 A page using MUI components with custom styles.
 Field values are validated for the numbers and validity of characters, and the correctness of the date. After submitting the form data to the API route, the page renders returned from the API values.
   
-How to launch
+#### How to launch:
 
     mongod
     npm run start
